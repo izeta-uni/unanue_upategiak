@@ -1,0 +1,51 @@
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* Taulen ikonoen estiloa */
+table a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.edit a {
+    color: #0dcaf0; /* Bootstrap 'info' color */
+}
+
+.delete a {
+    color: #dc3545; /* Bootstrap 'danger' color */
+}
+
+td.edit, td.delete {
+    text-align: center;
+}
+
+
+/* ------ LANDING PAGE ESTILOAK ------ */
+
+.landing-logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.course-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.desmatrikula-button {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.desmatrikula-button:hover {
+    background-color: #bb2d3b;
+}
