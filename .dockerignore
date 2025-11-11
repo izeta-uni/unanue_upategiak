@@ -1,0 +1,19 @@
+
+# Git-eko historia eta konfigurazioa baztertu
+.git
+.gitignore
+
+# Docker konfigurazioa baztertu
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Ingurune-fitxategiak eta sekretuak baztertu
+.env*
+
+# Composer-eko mendekotasunak baztertu (kontainerrean instalatzen dira)
+vendor/
+
+# IDEen konfigurazioa baztertu
+.vscode/
+.idea/
