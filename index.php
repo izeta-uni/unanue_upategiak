@@ -46,7 +46,6 @@ try {
     <?php endif; ?>
 </div>
 
-
 <div class="row g-4 animate__animated animate__fadeIn">
     <?php if (!empty($kurtsoak)): ?>
         <?php foreach ($kurtsoak as $kurtsoa): ?>

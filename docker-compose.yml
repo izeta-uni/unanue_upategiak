@@ -6,27 +6,17 @@ services:
       - "8080:80"
     volumes:
       - .:/var/www/html
-    env_file:
-      - .env
+    environment:
+      - APP_ENV=production
     depends_on:
       - db
-    environment:
-      - DB_HOST=db
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
-      - DB_NAME=${DB_NAME}
 
   db:
     image: mysql:8.0
     container_name: mysql-db
     restart: always
     env_file:
-      - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      - .env.prod
     volumes:
       - db-data:/var/lib/mysql
 
