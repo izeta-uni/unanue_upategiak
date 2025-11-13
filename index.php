@@ -2,92 +2,92 @@
 
 require_once 'bootstrap.php';
 require_once 'database/db.php';
-require_once 'model/Kurtsoa.php';
-require_once 'model/Matrikula.php';
+require_once 'model/Langilea.php';
+require_once 'model/Oharra.php';
+
+// Erabiltzailea saioa hasita dagoen egiaztatu
+if (!isset($_SESSION['user_id'])) {
+    header('Location: hasi-saioa.php');
+    exit;
+}
 
 $orri_titulua = 'Hasiera';
-include 'templates/header.php';
-
-// Kurtsoak eta ikaslearen matrikula lortu
-$kurtsoak = [];
-$matrikulatutakoKurtsoId = null;
+$conn = null; // Konexioa inizializatu
 
 try {
     $conn = konektatuDatuBasera();
-    $kurtsoak = Kurtsoa::lortuGuztiak($conn);
 
-    // Erabiltzailea ikasle bat bada, egiaztatu ea matrikulatuta dagoen
-    if (!empty($_SESSION['pertsona_id']) && empty($_SESSION['is_admin'])) {
-        $matrikulatutakoKurtsoId = Matrikula::lortuIkaslearenMatrikulaKurtsoId($conn, $_SESSION['pertsona_id']);
-    }
+    if ($_SESSION['is_admin']) {
+        // Administratzailearen ikuspegia
+        $orri_titulua = 'Agintarien Panela';
+        include 'templates/header.php';
+        ?>
+        <div class="text-center mb-5 animate__animated animate__fadeInDown">
+            <h1>Ongi etorri, <?php echo htmlspecialchars($_SESSION['username']); ?> (Administratzailea)</h1>
+            <p class="lead">Hemen duzu Unanue Upategiak-eko barne kudeaketa panela.</p>
+        </div>
 
-} catch (Exception $e) {
-    echo "<div class='alert alert-danger'>Ezin izan dira datuak kargatu: " . $e->getMessage() . "</div>";
-} finally {
-    if (isset($conn)) {
-        $conn->close();
-    }
-}
-?>
-
-<div class="text-center mb-5 animate__animated animate__fadeInDown">
-    <h1>XABIER ZUBIRI MANTEO INSTITUTUA, DONOSTIA</h1>
-</div>
-
-
-<div class="mt-4">
-    <?php if (isset($_SESSION['success_message'])): ?>
-        <div class="alert alert-success animate__animated animate__flipInX"><p class="mb-0"><?php echo $_SESSION['success_message']; ?></p></div>
-        <?php unset($_SESSION['success_message']); ?>
-    <?php endif; ?>
-    <?php if (isset($_SESSION['error_message'])): ?>
-        <div class="alert alert-danger animate__animated animate__shakeX"><p class="mb-0"><?php echo $_SESSION['error_message']; ?></p></div>
-        <?php unset($_SESSION['error_message']); ?>
-    <?php endif; ?>
-</div>
-
-<div class="row g-4 animate__animated animate__fadeIn">
-    <?php if (!empty($kurtsoak)): ?>
-        <?php foreach ($kurtsoak as $kurtsoa): ?>
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                <div class="card h-100 course-card w-100">
-                    <div class="card-body d-flex flex-column">
-                        <h2 class="card-title h4 text-primary"><?php echo htmlspecialchars($kurtsoa->izena); ?></h2>
-                        <p class="card-text"><strong>Maila:</strong> <?php echo htmlspecialchars($kurtsoa->gradu_maila); ?></p>
-                        <p class="card-text"><strong>Hizkuntza:</strong> <?php echo htmlspecialchars($kurtsoa->hizkuntza); ?></p>
-                        <p class="card-text"><strong>Iraupena:</strong> <?php echo htmlspecialchars($kurtsoa->urte_kopurua); ?> urte</p>
-                        <?php if (!empty($kurtsoa->sartzeko_baldintzak)): ?>
-                            <p class="card-text flex-grow-1"><strong>Baldintzak:</strong> <?php echo htmlspecialchars($kurtsoa->sartzeko_baldintzak); ?></p>
-                        <?php else: ?>
-                            <div class="flex-grow-1"></div>
-                        <?php endif; ?>
-
-                        <div class="mt-auto">
-                            <?php if (!empty($_SESSION['erabiltzailea']) && empty($_SESSION['is_admin'])): ?>
-                                <?php if ($matrikulatutakoKurtsoId === $kurtsoa->id): ?>
-                                    <form action="<?php echo BASE_URL; ?>actions/matrikula-ezabatu.php" method="POST">
-                                        <input type="submit" value="Desegin Matrikula" class="btn btn-danger w-100 desmatrikula-button">
-                                    </form>
-                                <?php elseif ($matrikulatutakoKurtsoId === null): ?>
-                                    <form action="<?php echo BASE_URL; ?>actions/matrikula-sortu.php" method="POST">
-                                        <input type="hidden" name="kurtso_id" value="<?php echo $kurtsoa->id; ?>">
-                                        <input type="submit" value="Matrikulatu" class="btn btn-success w-100">
-                                    </form>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
+        <div class="row justify-content-center animate__animated animate__fadeIn">
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Langileak Kudeatu</h5>
+                        <p class="card-text">Langileen informazioa ikusi, gehitu, editatu eta ezabatu.</p>
+                        <a href="langile-zerrenda.php" class="btn btn-primary">Joan Langileetara</a>
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="col">
-            <p class="alert alert-info">Une honetan ez dago kurtso erabilgarririk.</p>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Oharrak Kudeatu</h5>
+                        <p class="card-text">Segurtasun eta prestakuntza oharrak sortu, eguneratu eta ezabatu.</p>
+                        <a href="oharrak-kudeatu.php" class="btn btn-info">Joan Oharretara</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    <?php endif; ?>
-</div>
 
-<?php
+        <?php
+    } else {
+        // Langile arruntaren ikuspegia (Oharrak)
+        $orri_titulua = 'Oharrak';
+        include 'templates/header.php';
+
+        $oharrak = Oharra::lortuOharGuztiak($conn);
+        ?>
+        <div class="text-center mb-5 animate__animated animate__fadeInDown">
+            <h1>Ongi etorri, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
+            <p class="lead">Hemen duzu Unanue Upategiak-eko ohar garrantzitsuen panela.</p>
+        </div>
+
+        <div class="row justify-content-center animate__animated animate__fadeIn">
+            <div class="col-lg-8">
+                <?php if (!empty($oharrak)): ?>
+                    <?php foreach ($oharrak as $oharra): ?>
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary"><?php echo htmlspecialchars($oharra->titulua); ?></h5>
+                                <p class="card-text"><?php echo nl2br(htmlspecialchars($oharra->edukia)); ?></p>
+                                <p class="card-text"><small class="text-muted">Argitaratze data: <?php echo htmlspecialchars($oharra->data); ?></small></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="alert alert-info text-center">Ez dago oharrik une honetan.</div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+    }
+
+} catch (Exception $e) {
+    echo "<div class='alert alert-danger'>Errorea datuak kargatzean: " . htmlspecialchars($e->getMessage()) . "</div>";
+} finally {
+    if ($conn) {
+        $conn->close();
+    }
+}
+
 include 'templates/footer.php';
 ?>
-
