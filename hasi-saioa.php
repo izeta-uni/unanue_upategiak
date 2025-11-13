@@ -2,13 +2,12 @@
 
 require_once 'bootstrap.php';
 require_once 'database/db.php';
-require_once 'model/Kontua.php';
-require_once 'model/Pertsona.php';
+require_once 'model/Langilea.php';
 
 $erroreak = [];
 $erabiltzaile_izena = '';
 
-if (isset($_SESSION['erabiltzailea'])) {
+if (isset($_SESSION['username'])) {
     header('Location: index.php');
     exit;
 }
@@ -23,23 +22,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($erroreak)) {
         try {
             $conn = konektatuDatuBasera();
-            $kontua = Kontua::bilatuErabiltzaileIzenez($conn, $erabiltzaile_izena);
+            $langilea = Langilea::bilatuErabiltzailea($conn, $erabiltzaile_izena);
 
-            if ($kontua && $kontua->egiaztatuPasahitza($pasahitza)) {
-                
-                $_SESSION['erabiltzailea'] = $kontua->erabiltzaile_izena;
-                $_SESSION['pertsona_id'] = $kontua->pertsona_id; 
-                $_SESSION['is_admin'] = false;
-
-                if ($kontua->pertsona_id) {
-                    $pertsona = Pertsona::bilatuId($conn, $kontua->pertsona_id);
-                    if ($pertsona && $pertsona->rola === 'admin') {
-                        $_SESSION['is_admin'] = true;
-                    }
-                }
+            if ($langilea && password_verify($pasahitza, $langilea->pasahitza)) {
+                session_regenerate_id(true); // Saioaren finkapena ekiditeko
+                $_SESSION['user_id'] = $langilea->id;
+                $_SESSION['username'] = $langilea->erabiltzailea;
+                $_SESSION['is_admin'] = $langilea->is_admin;
 
                 if ($_SESSION['is_admin']) {
-                    header("Location: ikasle-zerrenda.php");
+                    header("Location: langile-zerrenda.php");
                 } else {
                     header("Location: index.php");
                 }
