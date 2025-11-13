@@ -45,4 +45,31 @@ session_set_cookie_params([
 // Hasi saioa iada hasita ez badago.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+    session_regenerate_id(true);
+}
+
+// Saioaren segurtasun neurriak
+define('SESSION_TIMEOUT', 1800); // 30 minutu
+
+if (isset($_SESSION['user_id'])) {
+    // Egiaztatu saioaren denbora-muga
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT)) {
+        session_unset();
+        session_destroy();
+        header('Location: hasi-saioa.php?error=session_expired');
+        exit;
+    }
+    $_SESSION['last_activity'] = time();
+
+    // Egiaztatu User-Agent-a
+    if (isset($_SESSION['user_agent']) && $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+        session_unset();
+        session_destroy();
+        header('Location: hasi-saioa.php?error=user_agent_mismatch');
+        exit;
+    }
+    
+    if (!isset($_SESSION['user_agent'])) {
+        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+    }
 }

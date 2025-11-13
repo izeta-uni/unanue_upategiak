@@ -25,10 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $langilea = Langilea::bilatuErabiltzailea($conn, $erabiltzaile_izena);
 
             if ($langilea && password_verify($pasahitza, $langilea->pasahitza)) {
-                session_regenerate_id(true); // Saioaren finkapena ekiditeko
                 $_SESSION['user_id'] = $langilea->id;
                 $_SESSION['username'] = $langilea->erabiltzailea;
                 $_SESSION['is_admin'] = $langilea->is_admin;
+                $_SESSION['last_activity'] = time();
+                $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 
                 if ($_SESSION['is_admin']) {
                     header("Location: langile-zerrenda.php");
