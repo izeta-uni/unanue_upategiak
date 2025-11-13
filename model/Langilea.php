@@ -29,13 +29,16 @@ class Langilea {
     public static function lortuLangileGuztiak(mysqli $conn): array {
         $langileak = [];
         $sql = "SELECT * FROM langileak";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($result && $result->num_rows > 0) {
-            foreach ($result->fetch_all(MYSQLI_ASSOC) as $langilea_data) {
+        if ($result) {
+            while ($langilea_data = $result->fetch_assoc()) {
                 $langileak[] = new Langilea($langilea_data);
             }
         }
+        $stmt->close();
         return $langileak;
     }
 

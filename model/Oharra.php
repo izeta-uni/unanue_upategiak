@@ -17,13 +17,16 @@ class Oharra {
     public static function lortuOharGuztiak(mysqli $conn): array {
         $oharrak = [];
         $sql = "SELECT * FROM oharrak ORDER BY data DESC"; // Azkenak lehenik
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($result && $result->num_rows > 0) {
-            foreach ($result->fetch_all(MYSQLI_ASSOC) as $oharra_data) {
+        if ($result) {
+            while ($oharra_data = $result->fetch_assoc()) {
                 $oharrak[] = new Oharra($oharra_data);
             }
         }
+        $stmt->close();
         return $oharrak;
     }
 
