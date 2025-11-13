@@ -55,7 +55,7 @@ include 'templates/header.php';
     <div class="col-lg-5 col-md-7">
         
         <?php if (isset($_SESSION['success_message'])): ?>
-            <div class="alert alert-success animate__animated animate__flipInX"><p class="mb-0"><?php echo $_SESSION['success_message']; ?></p></div>
+            <div class="alert alert-success animate__animated animate__flipInX"><p class="mb-0"><?php echo htmlspecialchars($_SESSION['success_message']); ?></p></div>
             <?php unset($_SESSION['success_message']); ?>
         <?php endif; ?>
 

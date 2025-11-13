@@ -36,11 +36,11 @@ try {
 
 <div class="mt-4">
     <?php if (isset($_SESSION['success_message'])): ?>
-        <div class="alert alert-success animate__animated animate__flipInX"><p class="mb-0"><?php echo $_SESSION['success_message']; ?></p></div>
+        <div class="alert alert-success animate__animated animate__flipInX"><p class="mb-0"><?php echo htmlspecialchars($_SESSION['success_message']); ?></p></div>
         <?php unset($_SESSION['success_message']); ?>
     <?php endif; ?>
     <?php if (isset($_SESSION['error_message'])): ?>
-        <div class="alert alert-danger animate__animated animate__shakeX"><p class="mb-0"><?php echo $_SESSION['error_message']; ?></p></div>
+        <div class="alert alert-danger animate__animated animate__shakeX"><p class="mb-0"><?php echo htmlspecialchars($_SESSION['error_message']); ?></p></div>
         <?php unset($_SESSION['error_message']); ?>
     <?php endif; ?>
 </div>
