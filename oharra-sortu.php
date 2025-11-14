@@ -13,46 +13,15 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
 $orri_titulua = 'Ohar Berria Sortu';
 include 'templates/header.php';
 
-$erroreak = [];
-$titulua = '';
-$edukia = '';
+// Saioan gordetako erroreak eta datuak berreskuratu
+$erroreak = $_SESSION['form_errors'] ?? [];
+$form_data = $_SESSION['form_data'] ?? [];
+$titulua = $form_data['titulua'] ?? '';
+$edukia = $form_data['edukia'] ?? '';
 
-// Formularioa bidali bada
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $titulua = trim($_POST['titulua'] ?? '');
-    $edukia = trim($_POST['edukia'] ?? '');
-
-    if (empty($titulua)) {
-        $erroreak[] = "Titulua derrigorrezkoa da.";
-    }
-    if (empty($edukia)) {
-        $erroreak[] = "Edukia derrigorrezkoa da.";
-    }
-
-    if (empty($erroreak)) {
-        try {
-            $conn = konektatuDatuBasera();
-            $oharra = new Oharra([
-                'titulua' => $titulua,
-                'edukia' => $edukia
-            ]);
-
-            if ($oharra->gorde($conn)) {
-                $_SESSION['success_message'] = "Oharra ondo sortu da.";
-                header('Location: oharrak-kudeatu.php');
-                exit;
-            } else {
-                $erroreak[] = "Errorea oharra sortzean.";
-            }
-        } catch (Exception $e) {
-            $erroreak[] = "Errorea datu-basearekin: " . htmlspecialchars($e->getMessage());
-        } finally {
-            if ($conn) {
-                $conn->close();
-            }
-        }
-    }
-}
+// Erroreak eta datuak saiotik garbitu
+unset($_SESSION['form_errors']);
+unset($_SESSION['form_data']);
 
 ?>
 
@@ -72,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 <?php endif; ?>
 
-                <form action="oharra-sortu.php" method="POST">
+                <form action="actions/oharra-gorde.php" method="POST">
                     <div class="mb-3">
                         <label for="titulua" class="form-label">Titulua</label>
                         <input type="text" id="titulua" name="titulua" class="form-control" value="<?php echo htmlspecialchars($titulua); ?>" required>
