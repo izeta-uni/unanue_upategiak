@@ -68,7 +68,14 @@ try {
                             <tr>
                                 <td><?php echo htmlspecialchars($oharra->id); ?></td>
                                 <td><?php echo htmlspecialchars($oharra->titulua); ?></td>
-                                <td><?php echo nl2br(htmlspecialchars(mb_strimwidth($oharra->edukia, 0, 100, "..."))); ?></td>
+                                <td><?php
+                                    $first_line = strtok($oharra->edukia, "\n");
+                                    if (strpos($oharra->edukia, "\n") !== false || strpos($oharra->edukia, "\r\n") !== false) {
+                                        echo htmlspecialchars($first_line) . '...';
+                                    } else {
+                                        echo htmlspecialchars($first_line);
+                                    }
+                                ?></td>
                                 <td><?php echo htmlspecialchars($oharra->data); ?></td>
                                 <td>
                                     <a href="oharra-editatu.php?id=<?php echo $oharra->id; ?>" class="btn btn-sm btn-primary me-2">Editatu</a>
