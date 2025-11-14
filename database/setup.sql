@@ -15,7 +15,6 @@ CREATE TABLE `langileak` (
   `abizena` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL UNIQUE,
   `departamentua` ENUM('Gerentzia', 'Administrazioa', 'IKT', 'Enologia', 'Mahats-biltzaileak') NOT NULL,
-  `kargua` VARCHAR(255) DEFAULT NULL,
   `kontratazio_data` DATE DEFAULT NULL,
   `erabiltzailea` VARCHAR(255) NOT NULL UNIQUE, -- Kontuaren erabiltzailea
   `pasahitza` VARCHAR(255) NOT NULL,           -- Kontuaren pasahitza (hashetuta)
@@ -41,8 +40,8 @@ CREATE TABLE `oharrak` (
 
 -- Administrari langilea sortu (erabiltzailea: admin, pasahitza: admin)
 -- Pasahitza BCrypt erabiliz hashetuta dago
-INSERT INTO `langileak` (`izena`, `abizena`, `email`, `departamentua`, `kargua`, `kontratazio_data`, `erabiltzailea`, `pasahitza`, `is_admin`) VALUES
-('Admin', 'User', 'admin@unanue.eus', 'IKT', 'Sistemen administratzailea', CURDATE(), 'admin', '$2y$10$yoC/DM9bePpk86Jp5HKikObqOUKqQVsiDPh9IqgHcca0EXEZpAZbS', 1);
+INSERT INTO `langileak` (`izena`, `abizena`, `email`, `departamentua`, `kontratazio_data`, `erabiltzailea`, `pasahitza`, `is_admin`) VALUES
+('Admin', 'User', 'admin@unanue.eus', 'IKT', CURDATE(), 'admin', '$2y$10$yoC/DM9bePpk86Jp5HKikObqOUKqQVsiDPh9IqgHcca0EXEZpAZbS', 1);
 
 
 SET foreign_key_checks = 1;

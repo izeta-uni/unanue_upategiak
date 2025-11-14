@@ -7,7 +7,6 @@ class Langilea {
     public string $abizena;
     public string $email;
     public string $departamentua;
-    public ?string $kargua;
     public ?string $kontratazio_data;
     public string $erabiltzailea;
     public string $pasahitza;
@@ -19,7 +18,6 @@ class Langilea {
         $this->abizena = $data['abizena'] ?? '';
         $this->email = $data['email'] ?? '';
         $this->departamentua = $data['departamentua'] ?? '';
-        $this->kargua = $data['kargua'] ?? null;
         $this->kontratazio_data = $data['kontratazio_data'] ?? null;
         $this->erabiltzailea = $data['erabiltzailea'] ?? '';
         $this->pasahitza = $data['pasahitza'] ?? '';
@@ -83,14 +81,13 @@ class Langilea {
     public function gorde(mysqli $conn): bool {
         if ($this->id) {
             // Eguneratu
-            $stmt = $conn->prepare("UPDATE langileak SET izena = ?, abizena = ?, email = ?, departamentua = ?, kargua = ?, kontratazio_data = ?, erabiltzailea = ?, pasahitza = ?, is_admin = ? WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE langileak SET izena = ?, abizena = ?, email = ?, departamentua = ?, kontratazio_data = ?, erabiltzailea = ?, pasahitza = ?, is_admin = ? WHERE id = ?");
             $stmt->bind_param(
-                "ssssssssii",
+                "sssssssi",
                 $this->izena,
                 $this->abizena,
                 $this->email,
                 $this->departamentua,
-                $this->kargua,
                 $this->kontratazio_data,
                 $this->erabiltzailea,
                 $this->pasahitza,
@@ -99,14 +96,13 @@ class Langilea {
             );
         } else {
             // Sortu (Txertatu)
-            $stmt = $conn->prepare("INSERT INTO langileak (izena, abizena, email, departamentua, kargua, kontratazio_data, erabiltzailea, pasahitza, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO langileak (izena, abizena, email, departamentua, kontratazio_data, erabiltzailea, pasahitza, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param(
-                "ssssssssi",
+                "sssssssi",
                 $this->izena,
                 $this->abizena,
                 $this->email,
                 $this->departamentua,
-                $this->kargua,
                 $this->kontratazio_data,
                 $this->erabiltzailea,
                 $this->pasahitza,

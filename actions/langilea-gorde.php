@@ -31,7 +31,6 @@ $form_data = [
     'abizena' => trim($_POST['abizena'] ?? ''),
     'email' => trim($_POST['email'] ?? ''),
     'departamentua' => trim($_POST['departamentua'] ?? ''),
-    'kargua' => trim($_POST['kargua'] ?? ''),
     'kontratazio_data' => trim($_POST['kontratazio_data'] ?? ''),
     'erabiltzailea' => trim($_POST['erabiltzailea'] ?? ''),
     'pasahitza' => $_POST['pasahitza'] ?? '', // Pasahitza ez da trim egiten, hutsik egon daitekeelako
@@ -103,7 +102,6 @@ try {
         $langilea->abizena = $form_data['abizena'];
         $langilea->email = $form_data['email'];
         $langilea->departamentua = $form_data['departamentua'];
-        $langilea->kargua = $form_data['kargua'];
         $langilea->kontratazio_data = $form_data['kontratazio_data'];
         $langilea->erabiltzailea = $form_data['erabiltzailea'];
         $langilea->is_admin = $form_data['is_admin'];
@@ -119,7 +117,6 @@ try {
             'abizena' => $form_data['abizena'],
             'email' => $form_data['email'],
             'departamentua' => $form_data['departamentua'],
-            'kargua' => $form_data['kargua'],
             'kontratazio_data' => $form_data['kontratazio_data'],
             'erabiltzailea' => $form_data['erabiltzailea'],
             'pasahitza' => password_hash($form_data['pasahitza'], PASSWORD_DEFAULT), // Pasahitza hashetu

@@ -52,7 +52,6 @@ try {
                     <th>Abizena</th>
                     <th>Email</th>
                     <th>Departamentua</th>
-                    <th>Kargua</th>
                     <th>Kontratazio Data</th>
                     <th>Erabiltzailea</th>
                     <th>Admin</th>
@@ -67,7 +66,6 @@ try {
                         <td><?php echo htmlspecialchars($langilea->abizena); ?></td>
                         <td><?php echo htmlspecialchars($langilea->email); ?></td>
                         <td><?php echo htmlspecialchars($langilea->departamentua); ?></td>
-                        <td><?php echo htmlspecialchars($langilea->kargua); ?></td>
                         <td><?php echo htmlspecialchars($langilea->kontratazio_data); ?></td>
                         <td><?php echo htmlspecialchars($langilea->erabiltzailea); ?></td>
                         <td><?php echo $langilea->is_admin ? 'Bai' : 'Ez'; ?></td>

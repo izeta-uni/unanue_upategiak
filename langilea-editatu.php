@@ -96,10 +96,6 @@ $departamentuak = ['Gerentzia', 'Administrazioa', 'IKT', 'Enologia', 'Mahats-bil
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="kargua" class="form-label">Kargua</label>
-                                <input type="text" id="kargua" name="kargua" class="form-control" value="<?php echo htmlspecialchars($form_data['kargua'] ?? $langilea->kargua); ?>">
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="kontratazio_data" class="form-label">Kontratazio Data</label>
