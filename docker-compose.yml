@@ -5,8 +5,8 @@ services:
     ports:
       - "8080:80"
     # Volumes garatzerakoan erabiltzen da.
-    volumes:
-      - .:/var/www/html
+    # volumes:
+    #   - .:/var/www/html
     env_file: 
       - .env
     depends_on:
