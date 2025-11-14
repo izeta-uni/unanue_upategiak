@@ -2,7 +2,7 @@
 
 <footer class="bg-dark text-white text-center p-4 mt-auto">
     <div class="container">
-        <p class="mb-0">&copy; <?php echo date("Y"); ?> Zubiri Manteo Ikastetxea - Eskubide guztiak erreserbatuta.</p>
+        <p class="mb-0">&copy; <?php echo date("Y"); ?> Unanue Upategiak - Eskubide guztiak erreserbatuta.</p>
     </div>
 </footer>
 
