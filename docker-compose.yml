@@ -4,7 +4,7 @@ services:
     container_name: php-app
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "80:80"
     # Volumes garatzerakoan erabiltzen da.
     # volumes:
     #   - .:/var/www/html
