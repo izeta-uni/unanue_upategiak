@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y libzip-dev zip \
   && docker-php-ext-install mysqli zip
 
 # Apache mod_rewrite gaitatu
-RUN a2enmod rewrite
+RUN a2enmod ssl rewrite
 
 # Virtual Host konfigurazioa kopiatu eta lehenetsia ordezkatu
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf

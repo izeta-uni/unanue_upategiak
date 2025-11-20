@@ -6,9 +6,18 @@ services:
     ports:
       - "80:80"
     # Volumes garatzerakoan erabiltzen da.
-    # volumes:
-    #   - .:/var/www/html
-    env_file: 
+    volumes:
+      # Para desarrollar la app:
+      # - .:/var/www/html
+
+      # Inyección de certificados (Host -> Contenedor)
+      - ./certs/web.crt:/etc/ssl/certs/web.crt
+      - ./certs/web.key:/etc/ssl/private/web.key
+
+      # Inyección de la config del sitio
+      - ./apache-config/web.conf:/etc/apache2/sites-available/000-default.conf
+
+    env_file:
       - .env
     depends_on:
       - db
