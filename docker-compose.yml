@@ -6,7 +6,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    # Volumes garatzerakoan erabiltzen da.
     volumes:
       # Para desarrollar la app:
       # - .:/var/www/html
@@ -17,7 +16,6 @@ services:
 
       # Inyección de la config del sitio
       - ./apache-config/web.conf:/etc/apache2/sites-available/000-default.conf
-
     env_file:
       - .env
     depends_on:
@@ -27,6 +25,8 @@ services:
     image: mysql:8.0
     container_name: mysql-db
     restart: always
+    ports:
+      - "3306:3306"
     env_file:
       - .env
     volumes:
