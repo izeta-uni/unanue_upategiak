@@ -44,4 +44,7 @@ INSERT INTO `langileak` (`izena`, `abizena`, `email`, `departamentua`, `kontrata
 ('Admin', 'User', 'admin@unanue.eus', 'IKT', CURDATE(), 'admin', '$2y$10$yoC/DM9bePpk86Jp5HKikObqOUKqQVsiDPh9IqgHcca0EXEZpAZbS', 1);
 
 
+ALTER TABLE `langileak` ADD `avatar_url` TEXT NULL AFTER `email`;
+
+
 SET foreign_key_checks = 1;
