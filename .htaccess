@@ -1,8 +1,2 @@
 RewriteEngine On
-
-# Si NO es HTTPS...
-RewriteCond %{HTTPS} off
-# ...mándalo a HTTPS
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
 RewriteRule ^(config|bootstrap)\.php$ - [R=404,L,NC]
